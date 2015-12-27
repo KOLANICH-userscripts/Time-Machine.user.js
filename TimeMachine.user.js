@@ -4,8 +4,7 @@
 // @namespace			timeflower
 
 // @description			Allows you to make change the rate and direction of time flow
-// @version				0.0.1
-// @screenshot			
+// @version				0.0.1-0.0.2
 
 // @include				https://kolanich.github.io/Time-Machine-userscript/
 

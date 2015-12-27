@@ -28,7 +28,8 @@ For more information, please refer to <http://unlicense.org/>*/
 	let config={
 		timeouts:true,
 		date:true,
-		perfnow:true
+		perfNow:true,
+		reqAnimFrame:true
 	};
 	
 	let el=document.getElementsByTagName("timeshifter-signal-element")[0];
@@ -74,6 +75,10 @@ For more information, please refer to <http://unlicense.org/>*/
 		}
 	}
 	
+	function interpolateTime(base,now){
+		return base+(now-base)*rate;
+	}
+	
 	if(config.date){
 		let DateB=Date;
 		Date=function(...args){
@@ -87,16 +92,29 @@ For more information, please refer to <http://unlicense.org/>*/
 		let startDate=DateB.now();
 		Date.now=function now(){
 			//console.count("Date.now");
-			return startDate+Math.round((DateB.now()-startDate)*rate);
+			return Math.round(interpolateTime(startDate,DateB.now()));
 		};
 	}
-	if(config.perfnow){
-		let nowB=performance.now.bind(performance);
-		let nowBase=nowB();
+	
+	let perfNowB=performance.now.bind(performance);
+	let perfNowBase=perfNowB();
+	if(config.perfNow){
 		performance.now=function now(){
 			//console.count("performance.now");
-			return nowBase+(nowB()-nowBase)*rate;
+			return interpolateTime(perfNowBase,perfNowB());
+		};
+	}
+	if(config.reqAnimFrame){
+		let reqAnimFrameB=requestAnimationFrame;
+		requestAnimationFrame=function(...args){
+			let f=args[0];
+			args[0]=(function(f, ...args){
+				args[0]=interpolateTime(perfNowBase,args[0]);
+				f(...args);
+			}).bind(this,f);
+			reqAnimFrameB(...args);
 		};
 	}
 	el.addEventListener("setRate",(e)=>{console.info("setting rate to "+e.detail);setRate(e.detail);},true);
+	
 }

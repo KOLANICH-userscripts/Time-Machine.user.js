@@ -12,3 +12,5 @@ How to use
 You can test it [here](https://kolanich.github.io/Time-Machine-userscript/)
 To enable it on another website use GM settings
 To set the rate time flows use script menu.
+
+Versioning is such: the first version is the version of user.js, the second is the version of inject.js
