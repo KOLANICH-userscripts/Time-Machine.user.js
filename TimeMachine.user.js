@@ -4,7 +4,7 @@
 // @namespace			timeflower
 
 // @description			Allows you to make change the rate and direction of time flow
-// @version				0.0.1-0.0.2
+// @version				0.0.2-0.0.3
 
 // @include				https://kolanich.github.io/Time-Machine-userscript/
 
@@ -56,9 +56,9 @@ s.type="application/javascript;version=1.7";
 s.src=GM_getResourceURL("inject.js");
 document.head.insertBefore(s, document.head.firstChild);
 
-function setRate(rate){
+let setRate=function setRate(rate){
 	el.dispatchEvent(new CustomEvent('setRate', {detail:rate}));
-}
+};
 
 [-10,-1,0.1,1,10,100,1000].forEach((r)=>{
 	GM_registerMenuCommand(r+"x",setRate.bind(this,r));

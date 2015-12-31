@@ -17,7 +17,7 @@
 		//it's easy to break this demo launching script without any events
 		document.addEventListener("DOMContentLoaded",()=>{
 			let frm=document.getElementsByTagName("FORM")[0];
-			function createTimerElement(name,cb){
+			let createTimerElement=function(name,cb){
 				let el=document.createElement("INPUT");
 				el.type="datetime";
 				el.name=name;
@@ -46,10 +46,10 @@
 			{
 				const amount=1000;
 				let timeOutTime=Date.now();
-				function sTo(){
+				let sTo=function (){
 					timeOutTime+=amount;
 					setTimeout(sTo,amount);
-				}
+				};
 				setTimeout(sTo,amount);
 				createTimerElement("setTimeout",()=>timeOutTime);
 			}

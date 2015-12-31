@@ -34,10 +34,10 @@ For more information, please refer to <http://unlicense.org/>*/
 	
 	let el=document.getElementsByTagName("timeshifter-signal-element")[0];
 	let rate=1;
-	function delayForTO(to){
+	let delayForTO=function delayForTO(to){
 		let delay=Math.abs(Math.round(to/rate));
 		return delay;
-	}
+	};
 	let intervals={};
 	if(config.timeouts){
 		let setIntervalB=setInterval;
@@ -63,7 +63,7 @@ For more information, please refer to <http://unlicense.org/>*/
 		};
 	}
 
-	function setRate(newRate){
+	let setRate=function setRate(newRate){
 		rate=newRate;
 		//console.info("setting rate to "+newRate);
 		if(config.timeouts){
@@ -73,11 +73,11 @@ For more information, please refer to <http://unlicense.org/>*/
 				setInterval(...args);
 			}
 		}
-	}
+	};
 	
-	function interpolateTime(base,now){
+	let interpolateTime=function interpolateTime(base,now){
 		return base+(now-base)*rate;
-	}
+	};
 	
 	if(config.date){
 		let DateB=Date;
