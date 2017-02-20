@@ -1,6 +1,8 @@
 [JS powered Time Machine](https://github.com/KOLANICH/Time-Machine-userscript) [![Unlicensed work](https://raw.githubusercontent.com/unlicense/unlicense.org/master/static/favicon.png)](http://unlicense.org/)
 =======================
 
+[![Join the chat at https://gitter.im/Time-Machine-userscript/Lobby](https://badges.gitter.im/Time-Machine-userscript/Lobby.svg)](https://gitter.im/Time-Machine-userscript/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Some  JS games care tied to real time. It is especially annoing if the game runs in turns and the time was made only to annoy the players, the source of such games are often obfuscated.
 
 Here is a userscript which can help. It exploits JS flexibility and hooks some browser-provided objects to make the web application get maliciously altered time. Of course it can be easily detected, but I have never seen such kind of detections in the wild.
