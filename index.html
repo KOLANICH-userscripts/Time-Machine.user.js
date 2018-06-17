@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en-US">
 <head>
-	<meta charset="UTF-8">
+	<meta charset="UTF-8"/>
 	<title>Time Machine Tester</title>
 	<style>
 	input{
@@ -10,12 +10,16 @@
 	</style>
 </head>
 <body>
+	<a href="./TimeMachine.user.js">--&gt;Install the script&lt;--</a><br/>
 	<form>
 		
 	</form>
-	<script type="application/javascript;version=1.7" defer>
+  <textarea></textarea>
+	<script>
+		"use strict";
 		//it's easy to break this demo launching script without any events
 		document.addEventListener("DOMContentLoaded",()=>{
+			let initialTime=Date.now();
 			let frm=document.getElementsByTagName("FORM")[0];
 			let createTimerElement=function(name,cb){
 				let el=document.createElement("INPUT");
@@ -35,7 +39,10 @@
 			}
 			createTimerElement("Date.now()",()=>Date.now());
 			createTimerElement("new Date()",()=>new Date().getTime());
-			createTimerElement("performance.now()",()=>performance.now());
+			createTimerElement("performance.now()",()=>initialTime+performance.now());
+			{
+				createTimerElement("requestAnimationFrame()",(ts)=>initialTime+ts);
+			}
 			{
 				const amount=1000;
 				let intervalTime=Date.now();
@@ -53,7 +60,6 @@
 				setTimeout(sTo,amount);
 				createTimerElement("setTimeout",()=>timeOutTime);
 			}
-			createTimerElement("requestAnimationFrame()",(ts)=>ts);
 		},false);
 	</script>
 </body>

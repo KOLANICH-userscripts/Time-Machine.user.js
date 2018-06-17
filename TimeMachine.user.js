@@ -4,7 +4,7 @@
 // @namespace			timeflower
 
 // @description			Allows you to make change the rate and direction of time flow
-// @version				0.0.2-0.0.3
+// @version				0.0.3-0.0.3
 
 // @include				https://kolanich.github.io/Time-Machine-userscript/
 
@@ -15,8 +15,8 @@
 // @contributionAmount	feel free to fork and contribute
 
 
-// @grant				GM_registerMenuCommand
-// @grant				GM_getResourceURL
+// @grant				GM.registerMenuCommand
+// @grant				GM.getResourceUrl
 // @run-at				document-start
 // @optimize			1
 // @resource			inject.js ./inject.js
@@ -52,15 +52,52 @@ For more information, please refer to <http://unlicense.org/>*/
 let el=document.createElement("timeshifter-signal-element");
 document.head.appendChild(el);
 let s=document.createElement("SCRIPT");
-s.type="application/javascript;version=1.7";
-s.src=GM_getResourceURL("inject.js");
-document.head.insertBefore(s, document.head.firstChild);
+GM.getResourceUrl("inject.js").then((res)=>{
+	s.src=res;
+	document.head.insertBefore(s, document.head.firstChild);
+});
 
 let setRate=function setRate(rate){
 	el.dispatchEvent(new CustomEvent('setRate', {detail:rate}));
 };
 
-[-10,-1,0.1,1,10,100,1000].forEach((r)=>{
-	GM_registerMenuCommand(r+"x",setRate.bind(this,r));
-});
-//GM_registerMenuCommand("Show intervals",()=>{console.log(intervals);});
+let presets= [-10,-1,0.1,0.5,1,2,10,100,1000,10000];
+
+function createControlBox(){
+	document.addEventListener("DOMContentLoaded", ()=>{
+	let d=document.createElement("div");
+	let t=document.createElement("input");
+	t.type="number";
+	t.required=true;
+	t.maxlength=t.size=5;
+	t.placeholder="1";
+	//t.disabled=true;
+	d.appendChild(t);
+	let dl=document.createElement("datalist");
+	for(let p of presets){
+		let b=document.createElement("option");
+		b.value=p;
+		dl.appendChild(b);
+	}
+	t.appendChild(dl);
+	t.addEventListener("change", (evt)=>{
+		if(!evt.target.reportValidity())
+			evt.target.value=1;
+		setRate(evt.target.value);
+	}, false);
+	document.body.appendChild(d);
+	d.style.position="fixed";
+	d.style.top="50%";
+	d.style.right="0px";
+	d.style.zIndex="99999";
+	}, false);
+}
+
+if(GM.registerMenuCommand){
+	presets.forEach((r)=>{
+		GM.registerMenuCommand(r+"x",setRate.bind(this,r));
+	});
+	//GM.registerMenuCommand("Show intervals",()=>{console.log(intervals);});
+}else{
+	createControlBox();
+}
